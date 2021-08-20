@@ -8,7 +8,7 @@ from fbprophet.plot import plot_plotly
 from plotly import graph_objs as go
 
 st.set_page_config(layout='wide')
-c1, c2 = st.columns((1,3))
+c1, c2 = st.columns((1,5))
 
 starts = ('2020-01-01','2019-01-01','2018-01-01','2017-01-01','2016-01-01','2015-01-01')
 start = c1.selectbox('Start', starts)
