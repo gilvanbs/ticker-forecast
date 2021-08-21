@@ -37,5 +37,5 @@ forecast = m.predict(future)
 
 # Plot
 fig1 = plot_plotly(m, forecast)
-fig1.update_layout(title=f'Forecast for {n_years} years', yaxis_title='Close', xaxis_title='Date', plot_bgcolor='lightgray')
+fig1.update_layout(title=f'Forecast for {period} years', yaxis_title='Close', xaxis_title='Date', plot_bgcolor='lightgray')
 c2.plotly_chart(fig1)
