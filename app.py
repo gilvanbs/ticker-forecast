@@ -21,7 +21,7 @@ period = n_years * 365
 # Data
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, start + '-01-01', TODAY)
+    data = yf.download(ticker, str(start) + '-01-01', TODAY)
     data.reset_index(inplace=True)
     return data
 
