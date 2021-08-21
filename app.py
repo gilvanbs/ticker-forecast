@@ -15,12 +15,12 @@ ticker = c1.selectbox('Ticker', tickers)
 start = c1.slider('Start', 2010, 2020, value=2015)
 TODAY = date.today().strftime('%Y-%m-%d')
 
-period = c1.slider('Years', 1, 5)
+period = c1.slider('Years', 1, 5, value=2)
 
 # Data
 @st.cache
 def load(ticker):
-    data = yf.download(ticker+'.SA', str(start)+'-01-01', TODAY)
+    data = yf.download(t, value=2015icker+'.SA', str(start)+'-01-01', TODAY)
     data.reset_index(inplace=True)
     return data
 
@@ -37,5 +37,5 @@ forecast = m.predict(future)
 
 # Plot
 fig1 = plot_plotly(m, forecast)
-fig1.update_layout(title=f'Forecast for {period} years', yaxis_title='Close', xaxis_title='Date', plot_bgcolor='lightgray')
+fig1.update_layout(title=f'{ticker} from {start} forecast for {period} years', yaxis_title='Close', xaxis_title='Date', plot_bgcolor='lightgray')
 c2.plotly_chart(fig1)
