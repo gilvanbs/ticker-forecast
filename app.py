@@ -20,7 +20,7 @@ period = c1.slider('Years', 1, 5, value=2)
 # Data
 @st.cache
 def load(ticker):
-    data = yf.download(t, value=2015icker+'.SA', str(start)+'-01-01', TODAY)
+    data = yf.download(ticker+'.SA', str(start)+'-01-01', TODAY)
     data.reset_index(inplace=True)
     return data
 
