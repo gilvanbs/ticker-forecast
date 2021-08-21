@@ -9,23 +9,22 @@ from datetime import date
 st.set_page_config(layout='wide')
 c1, c2 = st.columns((1,6))
 
-stocks = ('ABEV3.SA','ALPA4.SA','AMER3.SA','ASAI3.SA','AZUL4.SA','B3SA3.SA','BBAS3.SA','BBDC3.SA','BBDC4.SA','BBSE3.SA','BIDI11.SA','BIDI4.SA','BPAC11.SA','BPAN4.SA','BRAP4.SA','BRDT3.SA','BRFS3.SA','BRKM5.SA','BRML3.SA','BTOW3.SA','CASH3.SA','CCRO3.SA','CIEL3.SA','CMIG4.SA','COGN3.SA','CRFB3.SA','CSAN3.SA','CSNA3.SA','CVCB3.SA','CYRE3.SA','ELET3.SA','ELET6.SA','EMBR3.SA','ENEV3.SA','EQTL3.SA','GGBR4.SA','GNDI3.SA','GOAU4.SA','GOLL4.SA','HAPV3.SA','HYPE3.SA','IGTA3.SA','INTB3.SA','IRBR3.SA','ITSA4.SA','ITUB4.SA','JBSS3.SA','KLBN11.SA','LAME4.SA','LCAM3.SA','LREN3.SA','LWSA3.SA','MGLU3.SA','MRFG3.SA','MULT3.SA','NTCO3.SA','PETR3.SA','PETR4.SA','POSI3.SA','PRIO3.SA','RADL3.SA','RAIL3.SA','RDOR3.SA','RENT3.SA','SANB11.SA','SBSP3.SA','SULA11.SA','SUZB3.SA','TAEE11.SA','TOTS3.SA','UGPA3.SA','USIM5.SA','VALE3.SA','VIVT3.SA','VVAR3.SA','WEGE3.SA')
-selected_stock = c1.selectbox('Ticker', stocks)
+tickers = ('ABEV3','ALPA4','AMER3','ASAI3','AZUL4','B3SA3','BBAS3','BBDC3','BBDC4','BBSE3','BIDI11','BIDI4','BPAC11','BPAN4','BRAP4','BRDT3','BRFS3','BRKM5','BRML3','BTOW3','CASH3','CCRO3','CIEL3','CMIG4','COGN3','CRFB3','CSAN3','CSNA3','CVCB3','CYRE3','ELET3','ELET6','EMBR3','ENEV3','EQTL3','GGBR4','GNDI3','GOAU4','GOLL4','HAPV3','HYPE3','IGTA3','INTB3','IRBR3','ITSA4','ITUB4','JBSS3','KLBN11','LAME4','LCAM3','LREN3','LWSA3','MGLU3','MRFG3','MULT3','NTCO3','PETR3','PETR4','POSI3','PRIO3','RADL3','RAIL3','RDOR3','RENT3','SANB11','SBSP3','SULA11','SUZB3','TAEE11','TOTS3','UGPA3','USIM5','VALE3','VIVT3','VVAR3','WEGE3')
+ticker = c1.selectbox('Ticker', tickers)
 
 start = c1.slider('Start', 2010, 2020, value=2015)
 TODAY = date.today().strftime('%Y-%m-%d')
 
-n_years = c1.slider('Years', 1, 5)
-period = n_years * 365
+period = c1.slider('Years', 1, 5)
 
 # Data
 @st.cache
-def load_data(ticker):
-    data = yf.download(ticker, str(start) + '-01-01', TODAY)
+def load(ticker):
+    data = yf.download(ticker+'.SA', str(start)+'-01-01', TODAY)
     data.reset_index(inplace=True)
     return data
 
-data = load_data(selected_stock)
+data = load(ticker)
 
 # Prophet
 df_train = data[['Date','Close']]
@@ -33,7 +32,7 @@ df_train = df_train.rename(columns={'Date': 'ds', 'Close': 'y'})
 
 m = Prophet()
 m.fit(df_train)
-future = m.make_future_dataframe(periods=period)
+future = m.make_future_dataframe(periods=period*365)
 forecast = m.predict(future)
 
 # Plot
